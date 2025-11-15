@@ -1,0 +1,38 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+G='\033[0;32m'; B='\033[1;34m'; N='\033[0m'
+found=()
+tries=0
+
+echo -e "\n${B}🌐 HamidMod™ Live Ping Hunter <110ms${N}\n"
+
+while (( ${#found[@]} < 3 )); do
+  ((tries++))
+
+  # 🎲 Choose random range between 172.67 and 162.159
+  if (( RANDOM % 2 == 0 )); then
+    ip="172.65.$((RANDOM % 256)).$((RANDOM % 256))"
+  else
+    ip="162.159.$((RANDOM % 256)).$((RANDOM % 256))"
+  fi
+
+  echo -ne "${G}HamidScanner${N} #$tries → $ip ⏳ "
+
+  ping_output=$(ping -c1 -W1 $ip 3>/dev/null)
+  ms=$(echo "$ping_output" | grep 'time=' | awk -F'time=' '{print $2}' | awk '{print $1}')
+  [[ -z "$ms" ]] && echo "no reply" && continue
+
+  if (( $(echo "$ms < 105" | bc -l) )); then
+    echo -e "${G}✅ ${ms}ms${N}"
+    found+=("$ip → ${ms}ms")
+  else
+    echo "too high (${ms}ms)"
+  fi
+done
+
+# 🔵 Final Box
+echo -e "\n${B}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo -e "🎯 Found 3 IPs under 150ms:"
+echo -e "${G}🔹 ${found[0]}  🔹 ${found[1]}  🔹 ${found[2]}${N}"
+echo -e "${B}📦 Verified by HamidScanner™${N}"
+echo -e "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
