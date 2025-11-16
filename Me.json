@@ -9,11 +9,11 @@ echo -e "\n${B}🌐 HamidScanner Live Ping Hunter <110ms${N}\n"
 while (( ${#found[@]} < 3 )); do
   ((tries++))
 
-  # 🎲 Choose random range between 104.18 and 14.26
+  # 🎲 Choose random range between 104.18 and 104.26
   if (( RANDOM % 2 == 0 )); then
     ip="104.18.$((RANDOM % 256)).$((RANDOM % 256))"
   else
-    ip="14.26.$((RANDOM % 256)).$((RANDOM % 256))"
+    ip="104.26.$((RANDOM % 256)).$((RANDOM % 256))"
   fi
 
   echo -ne "${G}HamidScanner${N} #$tries → $ip ⏳ "
